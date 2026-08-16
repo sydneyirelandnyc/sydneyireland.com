@@ -125,11 +125,36 @@ p {
 }
 
 .site-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
   font-family: var(--font-heading);
   font-size: 1.25rem;
   font-weight: 700;
   text-decoration: none;
   color: var(--color-text);
+}
+
+.logo-mark {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.logo-mark circle {
+  fill: var(--color-accent);
+}
+
+.logo-mark text {
+  fill: #fff;
+  font-family: var(--font-heading);
+}
+
+@media (max-width: 400px) {
+  .site-logo-text {
+    display: none;
+  }
 }
 
 .nav-toggle {
