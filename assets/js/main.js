@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   renderMediaHits();
+  setupRevealSections(document);
 });
 
 const MEDIA_CATEGORIES = [
@@ -43,19 +44,98 @@ function renderMediaHits() {
     (a, b) => new Date(b.date) - new Date(a.date)
   );
 
-  container.innerHTML = MEDIA_CATEGORIES.map(({ key, label }) => {
+  container.innerHTML = MEDIA_CATEGORIES.map(({ key, label }, index) => {
     const items = sorted.filter((item) => item.category === key);
     if (items.length === 0) return "";
 
+    const expanded = index === 0;
+
     return `
-      <div class="media-category">
-        <h3 class="media-category-title">${escapeHtml(label)}</h3>
-        <div class="media-grid">
-          ${items.map(renderMediaCard).join("")}
+      <div class="reveal-section media-category${expanded ? " is-expanded" : ""}">
+        <h3>
+          <button class="reveal-toggle" type="button" aria-expanded="${expanded}">
+            <span class="reveal-label">${escapeHtml(label)}</span>
+            <span class="reveal-count">${items.length}</span>
+            <svg class="reveal-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </h3>
+        <div class="reveal-body">
+          <div class="media-grid">
+            ${items.map(renderMediaCard).join("")}
+          </div>
         </div>
       </div>
     `;
   }).join("");
+
+  setupRevealSections(container);
+}
+
+const REVEAL_COLLAPSE_DELAY = 900;
+const REVEAL_SCROLL_SETTLE_DELAY = 700;
+const REVEAL_SCROLL_THRESHOLD = 150;
+
+function setupRevealSections(root) {
+  const sections = [...root.querySelectorAll(".reveal-section")].filter(
+    (section) => !section.dataset.revealBound
+  );
+  if (sections.length === 0) return;
+
+  const leaveTimers = new WeakMap();
+  let scrollAtExpand = window.scrollY;
+  let scrollTimer = null;
+
+  const collapse = (section) => {
+    section.classList.remove("is-expanded");
+    section.querySelector(".reveal-toggle").setAttribute("aria-expanded", "false");
+  };
+
+  const cancelPendingCollapse = (section) => {
+    clearTimeout(leaveTimers.get(section));
+  };
+
+  const scheduleCollapse = (section, delay) => {
+    cancelPendingCollapse(section);
+    leaveTimers.set(
+      section,
+      setTimeout(() => collapse(section), delay)
+    );
+  };
+
+  const expand = (section) => {
+    cancelPendingCollapse(section);
+    section.classList.add("is-expanded");
+    section.querySelector(".reveal-toggle").setAttribute("aria-expanded", "true");
+    scrollAtExpand = window.scrollY;
+  };
+
+  sections.forEach((section) => {
+    section.dataset.revealBound = "true";
+    const toggle = section.querySelector(".reveal-toggle");
+
+    section.addEventListener("mouseenter", () => expand(section));
+    section.addEventListener("mouseleave", () => scheduleCollapse(section, REVEAL_COLLAPSE_DELAY));
+    toggle.addEventListener("focus", () => expand(section));
+    toggle.addEventListener("blur", () => scheduleCollapse(section, REVEAL_COLLAPSE_DELAY));
+    toggle.addEventListener("click", () => {
+      section.classList.contains("is-expanded") ? collapse(section) : expand(section);
+    });
+  });
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        if (Math.abs(window.scrollY - scrollAtExpand) > REVEAL_SCROLL_THRESHOLD) {
+          sections.forEach((section) => scheduleCollapse(section, 0));
+        }
+      }, REVEAL_SCROLL_SETTLE_DELAY);
+    },
+    { passive: true }
+  );
 }
 
 function renderMediaCard(item) {
@@ -82,11 +162,15 @@ function renderMediaCard(item) {
     : "";
 
   const linkLabel = item.embedUrl ? "View original &rarr;" : "Read the full piece &rarr;";
+  const favicon = getFaviconUrl(item.link);
 
   return `
     <article class="media-card">
       ${embed}
-      <span class="media-pub">${escapeHtml(item.publication)}</span>
+      <span class="media-pub">
+        ${favicon ? `<img class="media-pub-icon" src="${escapeAttr(favicon)}" alt="" loading="lazy" />` : ""}
+        ${escapeHtml(item.publication)}
+      </span>
       <h3>${escapeHtml(item.title)}</h3>
       <span class="media-date">${dateLabel}</span>
       <p class="media-excerpt">${escapeHtml(item.excerpt)}</p>
@@ -95,6 +179,15 @@ function renderMediaCard(item) {
       </a>
     </article>
   `;
+}
+
+function getFaviconUrl(link) {
+  try {
+    const { hostname } = new URL(link);
+    return `https://www.google.com/s2/favicons?domain=${hostname}&sz=64`;
+  } catch {
+    return "";
+  }
 }
 
 function escapeHtml(str) {
