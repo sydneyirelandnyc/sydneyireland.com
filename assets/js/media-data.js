@@ -20,6 +20,14 @@
 
 const mediaHits = [
   {
+    title: "A Few of My Favorite Things (ft. Sydney Ireland)",
+    publication: "Miss Congeniality with Eli Rallo",
+    date: "2022-08-12",
+    excerpt: "Sydney joins the Miss Congeniality podcast to talk through her favorite things and her scouting advocacy.",
+    link: "https://redcircle.com/shows/5665ae01-a703-4598-9904-75a93680e5d6/ep/d181344d-bc67-450f-823d-fb0c9d01ee46",
+    category: "video",
+  },
+  {
     title: "Why Boy Scouts of America Is Changing Its Name",
     publication: "PBS NewsHour",
     date: "2024-05-10",

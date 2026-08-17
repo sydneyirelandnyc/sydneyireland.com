@@ -17,9 +17,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  setupEmailLinks();
   renderMediaHits();
   setupRevealSections(document);
 });
+
+function setupEmailLinks() {
+  document.querySelectorAll("[data-user][data-domain]").forEach((el) => {
+    el.href = `mailto:${el.dataset.user}@${el.dataset.domain}`;
+  });
+}
 
 const MEDIA_CATEGORIES = [
   { key: "video", label: "Videos" },
@@ -111,12 +118,16 @@ function setupRevealSections(root) {
     scrollAtExpand = window.scrollY;
   };
 
+  const supportsHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
   sections.forEach((section) => {
     section.dataset.revealBound = "true";
     const toggle = section.querySelector(".reveal-toggle");
 
-    section.addEventListener("mouseenter", () => expand(section));
-    section.addEventListener("mouseleave", () => scheduleCollapse(section, REVEAL_COLLAPSE_DELAY));
+    if (supportsHover) {
+      section.addEventListener("mouseenter", () => expand(section));
+      section.addEventListener("mouseleave", () => scheduleCollapse(section, REVEAL_COLLAPSE_DELAY));
+    }
     toggle.addEventListener("focus", () => expand(section));
     toggle.addEventListener("blur", () => scheduleCollapse(section, REVEAL_COLLAPSE_DELAY));
     toggle.addEventListener("click", () => {
@@ -130,7 +141,9 @@ function setupRevealSections(root) {
       clearTimeout(scrollTimer);
       scrollTimer = setTimeout(() => {
         if (Math.abs(window.scrollY - scrollAtExpand) > REVEAL_SCROLL_THRESHOLD) {
-          sections.forEach((section) => scheduleCollapse(section, 0));
+          sections
+            .filter((section) => section.classList.contains("is-expanded") && !section.matches(":hover"))
+            .forEach((section) => scheduleCollapse(section, 0));
         }
       }, REVEAL_SCROLL_SETTLE_DELAY);
     },
