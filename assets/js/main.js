@@ -17,16 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  setupEmailLinks();
   renderMediaHits();
   setupRevealSections(document);
 });
-
-function setupEmailLinks() {
-  document.querySelectorAll("[data-user][data-domain]").forEach((el) => {
-    el.href = `mailto:${el.dataset.user}@${el.dataset.domain}`;
-  });
-}
 
 const MEDIA_CATEGORIES = [
   { key: "video", label: "Videos" },

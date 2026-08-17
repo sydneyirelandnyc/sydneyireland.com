@@ -585,12 +585,7 @@ p {
   gap: 0.5rem;
   font-weight: 600;
   color: var(--color-accent);
-  text-decoration: none;
   word-break: break-all;
-}
-
-.contact-email:hover {
-  text-decoration: underline;
 }
 
 .contact-direct .social-list {
