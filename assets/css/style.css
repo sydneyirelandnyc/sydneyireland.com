@@ -584,8 +584,13 @@ p {
   align-items: center;
   gap: 0.5rem;
   font-weight: 600;
-  color: var(--color-accent);
+  color: var(--color-text);
+  cursor: text;
   word-break: break-all;
+}
+
+.contact-email svg {
+  color: var(--color-text-muted);
 }
 
 .contact-direct .social-list {
