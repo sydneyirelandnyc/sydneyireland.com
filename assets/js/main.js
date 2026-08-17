@@ -88,8 +88,34 @@ function setupRevealSections(root) {
   let scrollTimer = null;
 
   const collapse = (section) => {
-    section.classList.remove("is-expanded");
-    section.querySelector(".reveal-toggle").setAttribute("aria-expanded", "false");
+    const toggle = section.querySelector(".reveal-toggle");
+    const body = section.querySelector(".reveal-body");
+    const rect = section.getBoundingClientRect();
+    const isScrolledPastTop = rect.top < 0;
+
+    if (isScrolledPastTop) {
+      // Section has already scrolled past the top of the viewport. Collapsing it
+      // removes height above the user's current view, which would otherwise drag
+      // everything below it (what they're actually looking at) up the page — so
+      // we collapse instantly (no animation) and manually compensate scroll
+      // position by exactly however much the document shrank.
+      const scrollYBefore = window.scrollY;
+      const docHeightBefore = document.documentElement.scrollHeight;
+      const prevTransition = body.style.transition;
+      body.style.transition = "none";
+      section.classList.remove("is-expanded");
+      toggle.setAttribute("aria-expanded", "false");
+      const removed = docHeightBefore - document.documentElement.scrollHeight;
+      if (removed > 0) {
+        window.scrollTo(0, scrollYBefore - removed);
+      }
+      requestAnimationFrame(() => {
+        body.style.transition = prevTransition;
+      });
+    } else {
+      section.classList.remove("is-expanded");
+      toggle.setAttribute("aria-expanded", "false");
+    }
   };
 
   const cancelPendingCollapse = (section) => {

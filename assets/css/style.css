@@ -448,6 +448,7 @@ p {
 .reveal-body {
   max-height: 0;
   overflow: hidden;
+  overflow-anchor: none;
   opacity: 0;
   transform: translateY(-8px);
   transition: max-height 0.5s ease, opacity 0.3s ease, transform 0.3s ease;
