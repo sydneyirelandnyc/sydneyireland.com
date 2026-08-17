@@ -356,6 +356,33 @@ p {
   max-width: 68ch;
 }
 
+/* ---------- Scouting Story ---------- */
+.scouting-gallery {
+  column-count: 3;
+  column-gap: 1.25rem;
+}
+
+.scouting-gallery img {
+  width: 100%;
+  display: block;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 1.25rem;
+  break-inside: avoid;
+}
+
+@media (max-width: 900px) {
+  .scouting-gallery {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 560px) {
+  .scouting-gallery {
+    column-count: 1;
+  }
+}
+
 /* ---------- Media Hits ---------- */
 .media-grid {
   display: grid;
