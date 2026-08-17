@@ -384,6 +384,17 @@ p {
 }
 
 /* ---------- Media Hits ---------- */
+.media-category + .media-category {
+  margin-top: 3.5rem;
+}
+
+.media-category-title {
+  font-size: 1.3rem;
+  padding-bottom: 0.6rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--color-accent);
+}
+
 .media-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));

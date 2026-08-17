@@ -13,6 +13,7 @@
 //                                    // (handy when only the year is known)
 //   excerpt: "A short one- or two-sentence excerpt or summary.",
 //   link: "https://example.com/full-article",
+//   category: "video",               // "video", "opinion", or "article"
 //   embedType: "video",              // optional — "video" or "audio"
 //   embedUrl: "https://...",         // optional — iframe embed src
 // },
@@ -24,6 +25,7 @@ const mediaHits = [
     date: "2024-05-10",
     excerpt: "A PBS NewsHour segment on Scouting America's rebrand and the broader push toward gender-inclusive scouting.",
     link: "https://www.pbs.org/newshour/show/why-boy-scouts-of-america-is-changing-its-name",
+    category: "video",
     embedType: "video",
     embedUrl: "https://player.pbs.org/viralplayer/3091328657",
   },
@@ -33,6 +35,7 @@ const mediaHits = [
     date: "2024-01-14",
     excerpt: "A profile of Sydney's nine-year campaign to join the Boy Scouts, her role shaping the now co-ed program, and news that her story is being developed into a feature film.",
     link: "https://www.dailymail.com/lifestyle/article-12907335/sydney-ireland-fought-nine-years-boy-scouts-movie.html",
+    category: "article",
   },
   {
     title: "Why Scouting America Blazes a Different Trail",
@@ -40,6 +43,7 @@ const mediaHits = [
     date: "2025-02-20",
     excerpt: "Reflects on Scouting America's gender-neutral rebrand as meaningful progress, while arguing that lasting change requires deeper cultural shifts and more diverse leadership.",
     link: "https://www.advocate.com/opinion/scouting-america",
+    category: "opinion",
   },
   {
     title: "The Boy Scouts Aren't Letting Girls In Yet, But Sydney Ireland Is Determined to Be the First Female Eagle Scout",
@@ -48,6 +52,7 @@ const mediaHits = [
     dateLabel: "2017",
     excerpt: "Correspondent Desi Lydic profiles Sydney's fight to become the Boy Scouts' first female Eagle Scout, back when the organization still barred girls from joining.",
     link: "https://www.facebook.com/thedailyshow/videos/the-boy-scouts-arent-letting-girls-in-yet-but-sydney-ireland-is-determined-to-be/1893704570708075/",
+    category: "video",
     embedType: "video",
     embedUrl: "https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fthedailyshow%2Fvideos%2Fthe-boy-scouts-arent-letting-girls-in-yet-but-sydney-ireland-is-determined-to-be%2F1893704570708075%2F&show_text=false",
   },
@@ -58,6 +63,7 @@ const mediaHits = [
     dateLabel: "2017",
     excerpt: "A NowThis Her \"Girlhood\" video on Sydney's fight to be included in the Boy Scouts of America.",
     link: "https://www.facebook.com/NowThisHer/videos/912535855543957/",
+    category: "video",
     embedType: "video",
     embedUrl: "https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FNowThisHer%2Fvideos%2F912535855543957%2F&show_text=false",
   },
@@ -67,6 +73,7 @@ const mediaHits = [
     date: "2017-04-29",
     excerpt: "An NPR Weekend Edition Saturday interview with Sydney about her years-long push to join the Boy Scouts and earn the rank of Eagle Scout.",
     link: "https://www.npr.org/2017/04/29/526021195/meet-the-teenage-girl-who-wants-to-be-a-boy-scout",
+    category: "article",
     embedType: "audio",
     embedUrl: "https://www.npr.org/player/embed/526021195/526158055?byline=false&cover=false",
   },
@@ -76,6 +83,7 @@ const mediaHits = [
     date: "2018-09-26",
     excerpt: "Argues that the Boy Scouts of America should let girls begin earning the Eagle Scout rank immediately, rather than waiting until February 2019, so young women who fought for inclusion aren't aged out of the opportunity.",
     link: "https://www.outsideonline.com/culture/opinion/let-me-become-eagle-scout/?scope=anon",
+    category: "opinion",
   },
   {
     title: "Scouts BSA Should Let Me Join Now — I and Other Young Women Deserve It",
@@ -83,6 +91,7 @@ const mediaHits = [
     date: "2018-05-09",
     excerpt: "Makes the case that Scouts BSA should open full membership to girls without delay, so those who have long participated informally can finally earn recognition alongside their peers.",
     link: "https://www.usatoday.com/story/opinion/2018/05/09/boy-scouts-bsa-women-girls-2019-column/590591002/",
+    category: "opinion",
   },
   {
     title: "I'm a Girl. I've Been Part of the Boy Scouts for Years. It's Time I Become a Member.",
@@ -90,5 +99,6 @@ const mediaHits = [
     date: "2017-08-25",
     excerpt: "Recounts years of unofficially participating in Boy Scout Troop 414 and argues it's time the organization formally welcomes girls as members.",
     link: "https://www.washingtonpost.com/opinions/im-a-girl-ive-been-part-of-the-boy-scouts-for-years-its-time-i-become-a-member/2017/08/25/a6d61ea8-89c1-11e7-961d-2f373b3977ee_story.html",
+    category: "opinion",
   },
 ];
